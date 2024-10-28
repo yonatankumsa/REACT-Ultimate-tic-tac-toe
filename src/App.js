@@ -31,7 +31,6 @@ function BigBoard() {
 
   function changeBoardsWon(newGames) {
     setBoardsWon(newGames);
-    //todo calculate overall winner
   }
 
   function calculateWinnerBig() {
@@ -77,39 +76,22 @@ function BigBoard() {
     let boardArray = [];
     for (let j = 0; j < 3; j++) {
       let k = i * 3 + j;
+      let children = [
+        <SmallBoard
+          xIsNext={xIsNext}
+          setXIsNext={setXIsNext}
+          currentGame={currentGame}
+          setCurrentGame={changeCurrentGame}
+          boardsWon={boardsWon}
+          setBoardsWon={changeBoardsWon}
+          thisBoard={k}
+          overallWinner={overallWinner}
+        />
+      ];
       if (boardsWon[k]) {
-        //todo overlay on game
-        boardArray.push(
-          <td key={"cell" + k}>
-            <div className="bigScore">{boardsWon[k]}</div>
-            <SmallBoard
-              xIsNext={xIsNext}
-              setXIsNext={setXIsNext}
-              currentGame={currentGame}
-              setCurrentGame={changeCurrentGame}
-              boardsWon={boardsWon}
-              setBoardsWon={changeBoardsWon}
-              thisBoard={k}
-              overallWinner={overallWinner}
-            />
-          </td>
-        );
-      } else {
-        boardArray.push(
-          <td>
-            <SmallBoard
-              xIsNext={xIsNext}
-              setXIsNext={setXIsNext}
-              currentGame={currentGame}
-              setCurrentGame={changeCurrentGame}
-              boardsWon={boardsWon}
-              setBoardsWon={changeBoardsWon}
-              thisBoard={k}
-              overallWinner={overallWinner}
-            />
-          </td>
-        );
+        children.push(<div className="bigScore">{boardsWon[k]}</div>);
       }
+      boardArray.push(<td key={k}>{children}</td>);
     }
     rows.push(<tr>{boardArray}</tr>);
   }
