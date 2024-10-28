@@ -64,12 +64,18 @@ export default function SmallBoard({
       nextSquares[i] = "O";
     }
 
+    const winner = calculateWinner(nextSquares);
     setSquares(nextSquares);
-    if ((calculateWinner(nextSquares) && i === thisBoard) || boardsWon[i]) {
+    if (winner && i === thisBoard) {
       let newCurrentGame = boardsWon.map((board) => {
         return !board;
       });
       newCurrentGame[thisBoard] = false;
+      setCurrentGame(newCurrentGame);
+    } else if (boardsWon[i]) {
+      const newCurrentGame = boardsWon.map((board) => {
+        return !board;
+      });
       setCurrentGame(newCurrentGame);
     } else {
       let newCurrentGame = Array(9).fill(false);
