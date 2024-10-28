@@ -35,13 +35,17 @@ export function minMaxMove(lastMove, gamePosition, xNext, depth = 0) {
       nextPosition[move[0]][move[1]] = "O";
     }
     const winner = calculateWinner(findBoardsWon(nextPosition));
-    if (winner === "X") return [1000000, possibleMovesArray[scores.length]];
-    if (winner === "O") return [-1000000, possibleMovesArray[scores.length]];
-    let positionScore = calculateOverallScore(nextPosition);
-    if (depth > 1) {
-      scores.push(minMaxMove(move[1], nextPosition, !xNext, depth - 1)[0]);
+    if (winner && winner[0] === "X") {
+      scores.push(1000000);
+    } else if (winner && winner[0] === "O") {
+      scores.push(-1000000);
     } else {
-      scores.push(positionScore);
+      let positionScore = calculateOverallScore(nextPosition);
+      if (depth > 1) {
+        scores.push(minMaxMove(move[1], nextPosition, !xNext, depth - 1)[0]);
+      } else {
+        scores.push(positionScore);
+      }
     }
   });
 

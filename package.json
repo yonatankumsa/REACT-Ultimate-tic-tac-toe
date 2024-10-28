@@ -1,8 +1,13 @@
 {
   "dependencies": {
+    "cors": "2.8.5",
+    "dns": "0.2.2",
+    "express": "4.18.2",
+    "mongodb": "5.1.0",
     "react": "18.3.0-next-fecc288b7-20221025",
     "react-dom": "18.3.0-next-fecc288b7-20221025",
-    "react-scripts": "5.1.0-next.14"
+    "react-scripts": "5.1.0-next.14",
+    "realm-web": "2.0.0"
   },
   "main": "/index.js",
   "devDependencies": {
@@ -11,7 +16,7 @@
   "keywords": [],
   "name": "react-tic-tac-toe-ultimate-refactor-forked",
   "description": null,
-  "version": "0.0.7",
+  "version": "0.0.17",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
