@@ -151,3 +151,12 @@ td {
   background: #ebf6f9;
   border-radius: 5px;
 }
+
+.resetButton {
+  position: absolute;
+  right: 20px;
+  margin: 5px;
+  background: #76bdd5;
+  border: 0px;
+  border-radius: 5px;
+}

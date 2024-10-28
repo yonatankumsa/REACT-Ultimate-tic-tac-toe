@@ -3,17 +3,30 @@ import SmallBoard from "./smallboard.js";
 import Rules from "./rules.js";
 
 export default function App() {
+  const [reset, setReset] = useState(0);
+
+  function resetBoard() {
+    setReset(reset + 1);
+  }
+
   return (
     <div id="container">
-      <Header />
-      <BigBoard />
+      <Header resetBoard={resetBoard} />
+      <BigBoard key={reset} />
       <Rules />
     </div>
   );
 }
 
-function Header() {
-  return <h1>Ultimate Tic-Tac-Toe</h1>;
+function Header({ resetBoard }) {
+  return (
+    <h1>
+      Ultimate Tic-Tac-Toe{" "}
+      <button className="resetButton" onClick={resetBoard}>
+        Reset game
+      </button>
+    </h1>
+  );
 }
 
 function BigBoard() {
