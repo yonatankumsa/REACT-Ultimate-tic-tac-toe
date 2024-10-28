@@ -5,7 +5,7 @@
 table {
   margin-left: auto;
   margin-right: auto;
-  margin-bottom: 20px;
+  margin-bottom: 1.5rem;
   border-collapse: collapse;
   border-style: hidden;
 }
@@ -18,71 +18,32 @@ body {
 
 h1 {
   margin-top: 0;
-  font-size: 22px;
+  font-size: 1.5rem;
   width: 100%;
   background: lightblue;
 }
 
-h2 {
-  margin-top: 0;
-  font-size: 20px;
-}
-
-h3 {
-  margin-top: 0;
-  font-size: 18px;
-}
-
-h4 {
-  margin-top: 0;
-  font-size: 16px;
-}
-
-h5 {
-  margin-top: 0;
-  font-size: 14px;
-}
-
-h6 {
-  margin-top: 0;
-  font-size: 12px;
-}
-
-code {
-  font-size: 1.2em;
-}
-
-ul {
-  padding-left: 35px;
-}
-
-li {
-  padding: 10px;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-body {
-  font-family: sans-serif;
-  margin-top: 20px;
-  padding: 0;
+.header {
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .square {
   background: #fff;
   border: 1px solid #999;
   float: left;
-  font-size: 24px;
+  font-size: 1.5rem;
   font-weight: bold;
-  line-height: 34px;
-  height: 34px;
+  line-height: 2rem;
+  height: 2rem;
   margin-right: -1px;
   margin-top: -1px;
   padding: 0;
   text-align: center;
-  width: 34px;
+  width: 2rem;
+  max-width: 33%;
+  max-height: 33%;
+  white-space: nowrap;
 }
 
 .highlighted {
@@ -100,45 +61,42 @@ body {
 }
 
 .status {
-  margin-bottom: 10px;
+  margin-bottom: 1rem;
 }
 .game {
   display: flex;
   flex-direction: row;
 }
 
-.game-info {
-  margin-left: 20px;
-}
-
 .bigScore {
   position: absolute;
   text-align: center;
   vertical-align: middle;
-  height: 100px;
-  line-height: 100px;
+  height: 6rem;
+  line-height: 6rem;
   left: 0;
   right: 0;
   top: 0;
   bottom: 0;
   margin: auto;
-  font-size: 80px;
+  font-size: 5rem;
   font-weight: bolder;
 }
 
 td {
   position: relative;
-  border: 2px solid lightblue;
-  padding: 5px;
+  border: 0.2rem solid lightblue;
+  padding: 0.4rem;
 }
 
 .rulesButton {
   width: 100%;
   border-width: 0px;
   background: lightblue;
-  border-radius: 5px;
+  border-radius: 0.4rem;
   font-weight: bold;
-  font-size: 16px;
+  font-size: 1rem;
+  padding: 0.2rem;
 }
 
 .container {
@@ -152,14 +110,111 @@ td {
 
 .rulesContainer {
   background: #ebf6f9;
-  border-radius: 5px;
+  border-radius: 0.4rem;
+  margin-top: 1rem;
 }
 
 .resetButton {
-  position: absolute;
-  right: 20px;
-  margin: 5px;
+  right: 1rem;
+  margin: 0.4rem;
   background: #76bdd5;
   border: 0px;
-  border-radius: 5px;
+  border-radius: 0.4rem;
+}
+
+.headerText {
+  flex-grow: 4;
+}
+
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 3rem;
+  height: 1.6rem;
+  margin: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #d8ecf3;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  /*height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;*/
+  height: 1rem;
+  width: 1rem;
+  left: 0.3rem;
+  bottom: 0.3rem;
+  background-color: white;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+}
+
+input:checked + .slider {
+  background-color: #4fabc9;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #4fabc9;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(1.4rem);
+  -ms-transform: translateX(1.4rem);
+  transform: translateX(1.4rem);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 2rem;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.lowerText {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 33%;
+}
+
+.buttonsDiv {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+label {
+  float: left;
+  padding: 0 0.5rem;
+  text-align: center;
+}
+
+.slidecontainer {
+  display: flex;
+  text-align: center;
+  justify-content: center;
 }

@@ -1,6 +1,10 @@
 import { useState } from "react";
 import SmallBoard from "./smallboard.js";
 import Rules from "./rules.js";
+import { calculateWinner, findBoardsWon } from "./calculateWinner.js";
+import Header from "./header";
+import { minMaxMove } from "./AI/ai.js";
+import ButtonsDiv from "./buttonsDiv";
 
 export default function App() {
   const [reset, setReset] = useState(0);
@@ -18,70 +22,71 @@ export default function App() {
   );
 }
 
-function Header({ resetBoard }) {
-  return (
-    <h1>
-      Ultimate Tic-Tac-Toe{" "}
-      <button className="resetButton" onClick={resetBoard}>
-        Reset game
-      </button>
-    </h1>
-  );
-}
-
 function BigBoard() {
-  const [currentGame, setCurrentGame] = useState(Array(9).fill(true));
-  const [xIsNext, setXIsNext] = useState(true);
-  const [boardsWon, setBoardsWon] = useState(Array(9).fill(null));
+  let initalPosition = [];
+  for (let i = 0; i < 9; i++) {
+    initalPosition.push(Array(9).fill(null));
+  }
+  const [gamePosition, setGamePosition] = useState(initalPosition);
+  const [lastMove, setLastMove] = useState(null);
+  const [robot, setRobot] = useState(2);
 
-  let status = xIsNext
+  let moveCount = 0;
+  gamePosition.forEach((board) => {
+    board.forEach((square) => {
+      if (square) {
+        moveCount += 1;
+      }
+    });
+  });
+
+  let xNext = (moveCount + 1) % 2;
+  let currentGame = Array(9).fill(true);
+
+  let status = xNext
     ? "X to play in any highlighted square"
     : "O to play in a highlighted square";
 
-  function changeCurrentGame(newGames) {
-    setCurrentGame(newGames);
+  function updateRobot(value) {
+    setRobot(value);
   }
 
-  function changeBoardsWon(newGames) {
-    setBoardsWon(newGames);
+  function updateGame(board, position, x = xNext) {
+    if (robot && !xNext) return;
+    let nextPosition = structuredClone(gamePosition);
+    let player = "X";
+    if (!x) {
+      player = "O";
+    }
+    nextPosition[board][position] = player;
+    setGamePosition(nextPosition);
+    setLastMove(position);
+
+    return nextPosition[board];
   }
 
-  function calculateWinnerBig() {
-    const lines = [
-      [0, 1, 2],
-      [3, 4, 5],
-      [6, 7, 8],
-      [0, 3, 6],
-      [1, 4, 7],
-      [2, 5, 8],
-      [0, 4, 8],
-      [2, 4, 6]
-    ];
+  const boardsFinished = findBoardsWon(gamePosition);
+  let overallWinner = calculateWinner(boardsFinished);
 
-    for (let i = 0; i < lines.length; i++) {
-      const [a, b, c] = lines[i];
-      if (
-        boardsWon[a] &&
-        boardsWon[a] === boardsWon[b] &&
-        boardsWon[a] === boardsWon[c]
-      ) {
-        return [a, b, c];
-      }
-    }
-    if (!boardsWon.includes(null)) {
-      return "draw";
-    }
-
-    return false;
+  if (boardsFinished[lastMove] || lastMove === null) {
+    currentGame = boardsFinished.map((board) => !board);
+  } else {
+    currentGame = Array(9).fill(false);
+    currentGame[lastMove] = true;
   }
 
-  const overallWinner = calculateWinnerBig();
-  if (overallWinner) {
-    if (overallWinner === "draw") {
-      status = "No more legal moves. The game is a draw.";
-    } else {
-      status = "Congratulations, " + boardsWon[overallWinner[0]] + " wins!";
-    }
+  if (!xNext && robot && !overallWinner) {
+    const robotMove = minMaxMove(lastMove + 0, gamePosition, xNext, robot)[1];
+    let nextPosition = structuredClone(gamePosition);
+    nextPosition[robotMove[0]][robotMove[1]] = "O";
+    setGamePosition(nextPosition);
+    setLastMove(robotMove[1]);
+  }
+
+  if (typeof overallWinner === "object") {
+    status = "Congratulations! Player " + overallWinner[0] + " won.";
+  } else if (overallWinner === "draw") {
+    status = "No more legal moves. The game is a draw";
   }
 
   let rows = [];
@@ -89,20 +94,25 @@ function BigBoard() {
     let boardArray = [];
     for (let j = 0; j < 3; j++) {
       let k = i * 3 + j;
+      let boardState = boardsFinished[k];
+      if (typeof overallWinner === "object") {
+        if (overallWinner.includes(k)) {
+          boardState = "winning line";
+        }
+      } else if (boardState === null && currentGame[k]) {
+        boardState = "current";
+      }
+
       let children = [
         <SmallBoard
-          xIsNext={xIsNext}
-          setXIsNext={setXIsNext}
-          currentGame={currentGame}
-          setCurrentGame={changeCurrentGame}
-          boardsWon={boardsWon}
-          setBoardsWon={changeBoardsWon}
+          updateGame={updateGame}
           thisBoard={k}
-          overallWinner={overallWinner}
+          squares={gamePosition[k]}
+          boardState={boardState}
         />
       ];
-      if (boardsWon[k]) {
-        children.push(<div className="bigScore">{boardsWon[k]}</div>);
+      if (boardsFinished[k] && boardsFinished[k] !== "draw") {
+        children.push(<div className="bigScore">{boardsFinished[k]}</div>);
       }
       boardArray.push(<td key={k}>{children}</td>);
     }
@@ -115,6 +125,7 @@ function BigBoard() {
       <table>
         <tbody>{rows}</tbody>
       </table>
+      <ButtonsDiv robot={robot} updateRobot={updateRobot} />
     </>
   );
 }
