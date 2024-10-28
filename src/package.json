@@ -1,8 +1,8 @@
 {
   "dependencies": {
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "react-scripts": "^5.0.0"
+    "react": "18.3.0-next-fecc288b7-20221025",
+    "react-dom": "18.3.0-next-fecc288b7-20221025",
+    "react-scripts": "5.1.0-next.14"
   },
   "main": "/index.js",
   "devDependencies": {},

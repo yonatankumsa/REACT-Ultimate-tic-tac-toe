@@ -6,7 +6,11 @@ export default function ButtonsDiv({ robot, updateRobot }) {
         <RobotSwitch robot={robot} updateRobot={updateRobot} />
         <p className="lowerText">AI opponent</p>
       </div>
-      <DifficultySelection robot={robot} updateRobot={updateRobot} />
+      <DifficultySelection
+        robot={robot}
+        updateRobot={updateRobot}
+        key="difficultySelection"
+      />
     </>
   );
 }
@@ -40,20 +44,20 @@ function DifficultySelection({ robot, updateRobot }) {
   let radioBoxes = [];
   for (let i = 0; i < 4; i++) {
     radioBoxes.push(
-      <>
-        <label for={i + 1}>
-          {difficulties[i]}
-          <br />
-          <input
-            type="radio"
-            id={i + 1}
-            name={difficulties[i]}
-            value={i + 1}
-            checked={checked[i]}
-            onClick={choseDifficulty}
-          />
-        </label>
-      </>
+      <label htmlFor={i + 1} key={i + 1 + "label"}>
+        {difficulties[i]}
+        <br />
+        <input
+          type="radio"
+          id={i + 1}
+          name={difficulties[i]}
+          value={i + 1}
+          checked={checked[i]}
+          onClick={choseDifficulty}
+          onChange={choseDifficulty}
+          key={i + 1 + "input"}
+        />
+      </label>
     );
   }
 

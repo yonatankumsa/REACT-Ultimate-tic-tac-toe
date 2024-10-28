@@ -79,8 +79,11 @@ function BigBoard() {
     const robotMove = minMaxMove(lastMove + 0, gamePosition, xNext, robot)[1];
     let nextPosition = structuredClone(gamePosition);
     nextPosition[robotMove[0]][robotMove[1]] = "O";
-    setGamePosition(nextPosition);
-    setLastMove(robotMove[1]);
+    setTimeout(()=>{
+      setGamePosition(nextPosition);
+      setLastMove(robotMove[1]);
+    },1000);
+    
   }
 
   if (typeof overallWinner === "object") {
@@ -109,14 +112,19 @@ function BigBoard() {
           thisBoard={k}
           squares={gamePosition[k]}
           boardState={boardState}
+          key={k + "SmallBoard"}
         />
       ];
       if (boardsFinished[k] && boardsFinished[k] !== "draw") {
-        children.push(<div className="bigScore">{boardsFinished[k]}</div>);
+        children.push(
+          <div className="bigScore" key={k + "bigScore"}>
+            {boardsFinished[k]}
+          </div>
+        );
       }
-      boardArray.push(<td key={k}>{children}</td>);
+      boardArray.push(<td key={k + "cell"}>{children}</td>);
     }
-    rows.push(<tr>{boardArray}</tr>);
+    rows.push(<tr key={i + "row"}>{boardArray}</tr>);
   }
 
   return (

@@ -30,10 +30,15 @@ export default function SmallBoard({
           className={className}
           value={squares[k]}
           onSquareClick={() => handleClick(k)}
+          key={k + "Square" + thisBoard}
         />
       );
     }
-    rows.push(<div className="board-row">{squareArray}</div>);
+    rows.push(
+      <div className="board-row" key={i + "row" + thisBoard}>
+        {squareArray}
+      </div>
+    );
   }
 
   return <>{rows}</>;
